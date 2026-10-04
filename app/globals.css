@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Lapis velvet evening palette */
+    --color-lapis-dark: #081849;
+    --color-lapis-mid: #213885;
+    --color-purple-muted: #5F3475;
+    --color-plum-magenta: #893172;
+    --color-cream: #ECDFD2;
+    --color-grey-lilac: #CCCACC;
+
+    --background: #FAFAFA;
+    --foreground: #0F172A;
+  }
+
+  .dark {
+    --background: #FAFAFA;
+    --foreground: #0F172A;
+  }
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+}
+
+/* Hide scrollbar for recent searches strip */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

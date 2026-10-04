@@ -1,0 +1,51 @@
+<svg width="680" height="460" viewBox="0 0 680 460" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Helvetica,Arial,sans-serif">
+<title>System architecture for the air quality prediction platform</title>
+<desc>Four-tier flow: IoT sensors and external data feed a cloud backend, which feeds an ML processing layer, which feeds web and mobile output apps.</desc>
+<rect width="680" height="460" fill="#F7F9FA"/>
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#6C7A82" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
+
+<g>
+  <rect x="60" y="30" width="240" height="56" rx="8" fill="#EEF6FB" stroke="#5FA8D3" stroke-width="1"/>
+  <text x="180" y="52" text-anchor="middle" font-size="14" font-weight="600" fill="#16222B">IoT sensor nodes</text>
+  <text x="180" y="70" text-anchor="middle" font-size="12" fill="#3C4B54">PM2.5, PM10, CO2, NO2</text>
+</g>
+<g>
+  <rect x="380" y="30" width="240" height="56" rx="8" fill="#EEF6FB" stroke="#5FA8D3" stroke-width="1"/>
+  <text x="500" y="52" text-anchor="middle" font-size="14" font-weight="600" fill="#16222B">External APIs</text>
+  <text x="500" y="70" text-anchor="middle" font-size="12" fill="#3C4B54">Weather and traffic data</text>
+</g>
+
+<line x1="180" y1="86" x2="180" y2="130" stroke="#6C7A82" stroke-width="1.5" marker-end="url(#arrow)"/>
+<line x1="500" y1="86" x2="500" y2="130" stroke="#6C7A82" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+<g>
+  <rect x="90" y="130" width="500" height="70" rx="10" fill="#E8F0F7" stroke="#2E6E9E" stroke-width="1"/>
+  <text x="340" y="158" text-anchor="middle" font-size="14" font-weight="600" fill="#16222B">Cloud backend (FastAPI)</text>
+  <text x="340" y="178" text-anchor="middle" font-size="12" fill="#3C4B54">Ingests, validates, stores time-series data</text>
+</g>
+
+<line x1="340" y1="200" x2="340" y2="244" stroke="#6C7A82" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+<g>
+  <rect x="90" y="244" width="500" height="70" rx="10" fill="#FBEFE9" stroke="#D2703C" stroke-width="1"/>
+  <text x="340" y="272" text-anchor="middle" font-size="14" font-weight="600" fill="#16222B">ML forecasting engine</text>
+  <text x="340" y="292" text-anchor="middle" font-size="12" fill="#3C4B54">Predicts AQI per zone, flags anomalies</text>
+</g>
+
+<line x1="340" y1="314" x2="340" y2="358" stroke="#6C7A82" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+<g>
+  <rect x="60" y="358" width="240" height="56" rx="8" fill="#F1ECF7" stroke="#8B6FB0" stroke-width="1"/>
+  <text x="180" y="380" text-anchor="middle" font-size="14" font-weight="600" fill="#16222B">Web dashboard</text>
+  <text x="180" y="398" text-anchor="middle" font-size="12" fill="#3C4B54">Heatmaps for city officials</text>
+</g>
+<g>
+  <rect x="380" y="358" width="240" height="56" rx="8" fill="#F1ECF7" stroke="#8B6FB0" stroke-width="1"/>
+  <text x="500" y="380" text-anchor="middle" font-size="14" font-weight="600" fill="#16222B">Mobile app</text>
+  <text x="500" y="398" text-anchor="middle" font-size="12" fill="#3C4B54">Live AQI, alerts, safe routes</text>
+</g>
+</svg>

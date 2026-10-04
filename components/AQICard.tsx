@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { AQIData } from "@/types";
-import { Wind, AlertTriangle, CheckCircle2, Info } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Info } from "lucide-react";
 
 export default function AQICard({ data, locationName }: { data: AQIData, locationName: string }) {
   

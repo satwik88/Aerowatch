@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import GlobeMount from "@/components/GlobeMount";
 import SearchBar from "@/components/SearchBar";
 import AQICard from "@/components/AQICard";
@@ -10,7 +10,7 @@ import { getLiveAQI, getForecastAQI } from "@/lib/owm";
 import { searchLocation } from "@/lib/geocode";
 import { AQIData, ForecastData, PlaceResult } from "@/types";
 import { motion, AnimatePresence } from "framer-motion";
-import { MapPin, Wind, Loader2 } from "lucide-react";
+import { MapPin, Loader2 } from "lucide-react";
 
 export default function Home() {
   const [activeLocation, setActiveLocation] = useState<PlaceResult | null>(null);
@@ -26,18 +26,60 @@ export default function Home() {
     if (saved) {
       try {
         setRecentSearches(JSON.parse(saved));
-      } catch (e) {}
+      } catch {
+        // Ignore error
+      }
     }
   }, []);
 
-  const saveRecentSearch = (place: PlaceResult) => {
+  const saveRecentSearch = useCallback((place: PlaceResult) => {
     setRecentSearches(prev => {
       const filtered = prev.filter(p => p.place_id !== place.place_id);
       const updated = [place, ...filtered].slice(0, 5);
       localStorage.setItem("aerowatch_recent", JSON.stringify(updated));
       return updated;
     });
-  };
+  }, []);
+
+  const handleSelectLocation = useCallback(async (place: PlaceResult, saveRecent = true) => {
+    setActiveLocation(place);
+    setLoading(true);
+    setError(null);
+    
+    if (saveRecent) {
+      saveRecentSearch(place);
+    }
+
+    const lat = parseFloat(place.lat);
+    const lon = parseFloat(place.lon);
+
+    try {
+      const [live, forecast] = await Promise.all([
+        getLiveAQI(lat, lon),
+        getForecastAQI(lat, lon)
+      ]);
+
+      if (!live) throw new Error("Could not fetch AQI data. Check API key.");
+      
+      setAqiData(live);
+      setForecastData(forecast);
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : "Failed to load data");
+    } finally {
+      setLoading(false);
+    }
+  }, [saveRecentSearch]);
+
+  const loadFallbackLocation = useCallback(async () => {
+    // Fallback to New Delhi
+    const results = await searchLocation("New Delhi");
+    if (results.length > 0) {
+      handleSelectLocation(results[0], false);
+    } else {
+      setLoading(false);
+      setError("Failed to load initial location.");
+    }
+  }, [handleSelectLocation]);
 
   // Initial Geolocation
   useEffect(() => {
@@ -61,7 +103,7 @@ export default function Home() {
             name: data.address?.city || data.address?.town || data.address?.village || "Your Location"
           };
           handleSelectLocation(place, false);
-        } catch (e) {
+        } catch {
           loadFallbackLocation();
         }
       },
@@ -70,47 +112,7 @@ export default function Home() {
       },
       { timeout: 5000 }
     );
-  }, []);
-
-  const loadFallbackLocation = async () => {
-    // Fallback to New Delhi
-    const results = await searchLocation("New Delhi");
-    if (results.length > 0) {
-      handleSelectLocation(results[0], false);
-    } else {
-      setLoading(false);
-      setError("Failed to load initial location.");
-    }
-  };
-
-  const handleSelectLocation = async (place: PlaceResult, saveRecent = true) => {
-    setActiveLocation(place);
-    setLoading(true);
-    setError(null);
-    
-    if (saveRecent) {
-      saveRecentSearch(place);
-    }
-
-    const lat = parseFloat(place.lat);
-    const lon = parseFloat(place.lon);
-
-    try {
-      const [live, forecast] = await Promise.all([
-        getLiveAQI(lat, lon),
-        getForecastAQI(lat, lon)
-      ]);
-
-      if (!live) throw new Error("Could not fetch AQI data. Check API key.");
-      
-      setAqiData(live);
-      setForecastData(forecast);
-    } catch (e: any) {
-      setError(e.message || "Failed to load data");
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, [handleSelectLocation, loadFallbackLocation]);
 
   return (
     <main className="min-h-screen bg-[#FAFAFA] text-slate-900 selection:bg-plum/30">

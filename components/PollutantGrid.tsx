@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Cloud, CloudRain, CloudFog, CloudLightning, ChevronRight, AlertCircle, Wind } from "lucide-react";
+import { Cloud, CloudFog, ChevronRight, AlertCircle, Wind } from "lucide-react";
 
 interface PollutantProps {
   id: string;
@@ -11,7 +11,7 @@ interface PollutantProps {
   value: number;
   unit: string;
   limit: number;
-  Icon: any;
+  Icon: React.ElementType;
   desc: string;
 }
 

@@ -11,6 +11,8 @@ Real-time air quality dashboard with live location AQI, city search, pollutant b
 
 **Live demo:** [aerowatch.vercel.app](https://aerowatch.vercel.app)
 
+</div>
+
 ## Contents
 
 1. [Abstract](#abstract)
@@ -93,19 +95,25 @@ OpenWeatherMap returns pollutant concentrations in micrograms per cubic metre, a
 
 ## Project structure
 
-```
+```text
 Aerowatch/
-├── app/            Next.js pages, layout and global styles
-├── components/     UI components (AQICard, PollutantGrid, ForecastChart,
-│                   SearchBar, GlobeMount)
-├── lib/            API clients and calculations (owm.ts, geocode.ts,
-│                   aqi-convert.ts)
-├── types/          TypeScript types for API responses and place results
-├── docs/           Diagrams from the original project proposal
-├── .eslintrc.json
-├── next.config.mjs
-├── tailwind.config.ts
-└── package.json
+  app/                  Next.js pages, layout, global styles
+  components/
+    AQICard.tsx         Main AQI card
+    PollutantGrid.tsx   Six pollutant cards
+    ForecastChart.tsx   Five-day forecast chart
+    SearchBar.tsx       City search
+    GlobeMount.tsx      3D globe
+  lib/
+    owm.ts              OpenWeatherMap API calls
+    geocode.ts          Nominatim place search
+    aqi-convert.ts      AQI calculation
+  types/                TypeScript types
+  docs/                 Diagrams from the original proposal
+  .eslintrc.json
+  next.config.mjs
+  tailwind.config.ts
+  package.json
 ```
 
 ## Getting started
@@ -161,7 +169,7 @@ The site is deployed on Vercel from the `main` branch.
 - **Data source.** Air quality values and the forecast come from OpenWeatherMap, which provides model-based data at grid resolution. Readings can differ from an official monitoring station nearby.
 - **No custom forecasting model.** The forecast is not produced by a model trained for this project.
 - **API key visibility.** The key is a `NEXT_PUBLIC_` variable, so it is included in the browser bundle and visible to anyone who inspects the page. This is acceptable for a free-tier key in a course project but not for production.
-- **Country-level precision.** Results are for a single point. A large city is represented by one coordinate.
+- **Single-point results.** Each result is for one coordinate, so a large city is represented by a single reading.
 - **Not a medical tool.** The health notes are general guidance.
 
 ## Future scope
@@ -187,7 +195,7 @@ Access to local, current air quality data lets people reduce exposure by choosin
 
 ## Academic details
 
-| | |
+| Item | Detail |
 |---|---|
 | Project | AeroWatch: air quality monitoring and forecasting |
 | Course | Environmental Studies and E-Waste Management (BCS508) |

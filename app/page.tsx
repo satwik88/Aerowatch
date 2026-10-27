@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import GlobeMount from "@/components/GlobeMount";
 import SearchBar from "@/components/SearchBar";
+import Logo from "@/components/Logo";
 import AQICard from "@/components/AQICard";
 import PollutantGrid from "@/components/PollutantGrid";
 import ForecastChart from "@/components/ForecastChart";
@@ -119,6 +120,7 @@ export default function Home() {
       
       {/* Hero Section (Globe + Search) */}
       <div className="relative w-full flex justify-center pt-8 mb-12">
+        <Logo className="absolute top-0 left-0 z-30 px-6 py-5 md:px-10 md:py-6" />
         <div className="pointer-events-none z-0">
           <GlobeMount />
         </div>
